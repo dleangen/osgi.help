@@ -1,0 +1,60 @@
+
+Bundle-Version:         1.0.0.${tstamp}
+
+-remoteworkspace        true
+-runfw:                 org.apache.felix.framework
+-runee:                 JavaSE-1.8
+
+-includepackage: *;from:=classes
+
+Test-Cases:             ${classes;CONCRETE;PUBLIC;NAMED;*Test*} 
+-testpath: \
+	biz.aQute.launchpad,\
+	org.osgi.framework,\
+	slf4j.api,\
+	slf4j.simple,\
+	org.osgi.resource,\
+	org.osgi.dto,\
+	org.osgi.util.tracker,\
+	osgi.enroute.junit.wrapper, \
+	osgi.enroute.hamcrest.wrapper, \
+	org.assertj.core
+
+-resolve.effective:     resolve, active
+
+baseline.version:       0.0.0
+base.version:           1.0.0
+-baseline: 				*
+
+Git-Descriptor:         ${system-allow-fail;git describe --dirty --always}
+Git-SHA:                ${system-allow-fail;git rev-list -1 HEAD}
+
+# The credentials that are used on the CI server.
+# These are passed in via the environment. The values are stored
+# on the CI server.
+pwd = ${env;REPO_PASSWORD;}
+usr = ${env;REPO_USERNAME;}
+
+base.version:			1.0.0.${tstamp}
+
+# If the build is Local, use the timestamp with the version. Otherwise, if this
+# is a release build, remove the timestamp.
+vmask = ${if;${userepo};===~;====}
+build.version = ${versionmask;${vmask};${base.version}}
+
+group.id:				${def;workspaceGroup;"net.leangen.expedition"}
+-groupid:               ${group.id}
+snapshot:				${if;${userepo};;-SNAPSHOT}
+-pom:                   version=${versionmask;===~;${base.version}}${snapshot}
+
+nexusId:				${def;nexus.base;"http://nexus.default.com"}
+
+# When building locally (no password environment variable is set)
+# use Maven (and any credentials in settings.xml). Otherwise use
+# the provided credentials.
+-connection-settings: \
+	${if;${pwd};server;maven}; \
+		id=${nexusId}; \
+		username=${usr}; \
+		password=${pwd}, \
+		-bnd

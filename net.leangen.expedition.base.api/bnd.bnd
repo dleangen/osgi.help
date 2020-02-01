@@ -1,0 +1,5 @@
+-buildpath: \
+	osgi.annotation,\
+	org.osgi.util.promise
+
+Export-Package: net.leangen.expedition.base
