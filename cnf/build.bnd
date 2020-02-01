@@ -7,7 +7,6 @@ Bundle-Version:         1.0.0.${tstamp}
 
 -includepackage: *;from:=classes
 
-Test-Cases:             ${classes;CONCRETE;PUBLIC;NAMED;*Test*} 
 -testpath: \
 	biz.aQute.launchpad,\
 	org.osgi.framework,\
@@ -24,7 +23,7 @@ Test-Cases:             ${classes;CONCRETE;PUBLIC;NAMED;*Test*}
 
 baseline.version:       0.0.0
 base.version:           1.0.0
--baseline: 				*
+#-baseline: 				*
 
 Git-Descriptor:         ${system-allow-fail;git describe --dirty --always}
 Git-SHA:                ${system-allow-fail;git rev-list -1 HEAD}

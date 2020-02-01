@@ -3,3 +3,4 @@
 	org.osgi.util.promise
 
 Export-Package: net.leangen.expedition.base
+Test-Cases:             ${classes;CONCRETE;PUBLIC;NAMED;*Test*} 
